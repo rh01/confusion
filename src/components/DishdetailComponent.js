@@ -39,7 +39,7 @@ const DishDetail = (props) => {
                     <RenderDish  dish={props.dish}/>
                 </div> 
                     <RenderComments comments={props.comments}
-                        addComments={props.addComments} 
+                        addComment={props.addComment} 
                         dishId={props.dish.id}/>    
 
                                         
@@ -69,7 +69,7 @@ function RenderDish({dish}) {
     } else {
         return (
             <div></div>
-        );
+        )
     }
 }
     
@@ -93,8 +93,9 @@ class CommentForm extends Component {
     }
 
     handleSubmit(values) {
-        console.log("Current State is: " + JSON.stringify(values));
-        alert("Current State is: " + JSON.stringify(values));
+        this.toggleModal();
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+
     }
 
     render() {
@@ -114,8 +115,8 @@ class CommentForm extends Component {
                     <ModalBody>
                         <LocalForm onSubmit={(values) => this.handleSubmit(values)} >
                             <FormGroup>
-                                <Label htmlFor="rate">Rating</Label>
-                                <Control.select model=".rate" id="rate" name="rate" 
+                                <Label htmlFor="rating">Rating</Label>
+                                <Control.select model=".rating" id="rating" name="rating" 
                                     className="form-control">
                                     <option>1</option>
                                     <option>2</option>
@@ -127,8 +128,8 @@ class CommentForm extends Component {
                             </FormGroup>
 
                             <FormGroup>
-                                <Label htmlFor="name">Your Name</Label>
-                                <Control.text model=".name" id="name" name="name" 
+                                <Label htmlFor="author">Your Name</Label>
+                                <Control.text model=".author" id="author" name="author" 
                                     placeholder="Your Name"
                                     className="form-control"
                                     validators={{
@@ -137,7 +138,7 @@ class CommentForm extends Component {
                                     />
                                     <Errors
                                         className="text-danger"
-                                        model=".name"
+                                        model=".author"
                                         show="touched"
                                         messages={{
                                             required : "Required",
@@ -172,7 +173,7 @@ class CommentForm extends Component {
  * 
  * @param {object} dish 
  */
-function RenderComments({comments, addComments, dishId}) {
+function RenderComments({comments, addComment, dishId}) {
     const options = {year: 'numeric', month: 'long', day: 'numeric'};
     if(comments != null) { 
             return (
@@ -191,7 +192,7 @@ function RenderComments({comments, addComments, dishId}) {
                             })}
                             
                         </ul>
-                    <CommentForm />
+                    <CommentForm dishId={dishId} addComment={addComment} />
                 </div>
             );
         

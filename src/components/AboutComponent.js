@@ -7,7 +7,7 @@ function About(props) {
     const leaders = props.leaders.map((leader) => {
         return (
             
-            <div className="row row-content">
+            <div key={leader.id} className="row row-content">
                 <Media>
                     {/* <div className="col-12 col-md-2"> */}
                         <Media left top>
